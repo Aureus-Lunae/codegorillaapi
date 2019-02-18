@@ -1,0 +1,30 @@
+{
+  "name": "codegorillaapi",
+  "version": "1.0.0",
+  "description": "API for CodeGorilla where the people can upload their projects and users can find the projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Aureus-Lunae/codegorillaapi.git"
+  },
+  "keywords": [
+    "CodeGorilla",
+    "API"
+  ],
+  "author": "Erwin Korsten",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aureus-Lunae/codegorillaapi/issues"
+  },
+  "homepage": "https://github.com/Aureus-Lunae/codegorillaapi#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.13"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}

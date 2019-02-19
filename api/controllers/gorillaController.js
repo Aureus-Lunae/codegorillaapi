@@ -11,17 +11,42 @@ let testCalled = 0;
  */
 
 exports.listAllUsers = (req, res, next) => {
-	const { rank } = req.query
+	const { rank, sort } = req.query
 	let query = {};
+	let options = {};
+	const sortColumns = [`firstName`, `lastName`];
+	let sortby = 0;
 
 	if (rank) {
 		query.rights = rank.charAt(0).toUpperCase() + rank.slice(1);
 	}
 
+	if (sort) {
+		sortby = sort.toLowerCase();
+		if (sortby === `firstname`) {
+			sortby = `firstName`;
+		}
+		if (sortby === `lastname`) {
+			sortby = `lastName`;
+		}
+	}
+
+	if (sortby === 0) {
+		console.log(`undefined`);
+	} else {
+		console.log(sortby);
+		if (!sortColumns.includes(sortby)) {
+			console.log(`Error, does not exist`);
+		} else {
+			options.sort = {
+				[sortby]: 1 };
+		}
+	}
+
 	listUserCalled++;
 	console.log(`List All Users: ${listUserCalled}`);
 
-	Users.find(query, `_id email firstName lastName specialty foto city hobbies rights`, (err, user) => {
+	Users.find(query, `_id email firstName lastName specialty foto city hobbies rights`, options, (err, user) => {
 		if (err) {
 			res.send(err);
 		} else {

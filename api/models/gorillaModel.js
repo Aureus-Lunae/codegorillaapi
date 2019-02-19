@@ -23,6 +23,7 @@ const UserSchema = new Schema({
 	lastName: String,
 	specialty: String,
 	foto: String,
+	city: String,
 	hobbies: String
 });
 

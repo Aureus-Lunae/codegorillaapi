@@ -2,14 +2,18 @@
 
 const mongoose = require(`mongoose`),
 	Users = mongoose.model(`Users`);
+let listUserCalled = 0;
+let UserDataCalled = 0;
 
 exports.listAllUsers = (req, res, next) => {
 	Users.find({}, (err, user) => {
 		if (err) {
 			res.send(err);
 		}
-		let result = json(user);
-		res.status(200).send(result);
+		let response = JSON.stringify({ "data": user });
+		listUserCalled++;
+		console.log(`List All Users: ${listUserCalled}`);
+		res.send(response);
 	});
 };
 
@@ -21,5 +25,18 @@ exports.createUser = (req, res) => {
 			res.send(err);
 		}
 		res.json(user);
+	});
+};
+
+exports.readAnUser = (req, res, next) => {
+	Users.findById(req.params.userId, (err, user) => {
+		if (err) {
+			res.send(err);
+		} else {
+			let response = JSON.stringify({ "data": user });
+			UserDataCalled++;
+			console.log(`List User: ${UserDataCalled}`);
+			res.send(response);
+		}
 	});
 };

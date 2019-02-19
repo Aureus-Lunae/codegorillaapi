@@ -8,6 +8,6 @@ module.exports = (app) => {
 		.get(gorillas.listAllUsers)
 		.post(gorillas.createUser);
 
-	// app.route(`/users/:userId`)
-	// 	.get(gorillas.read_an_user);
+	app.route(`/users/:userId`)
+		.get(gorillas.readAnUser);
 };

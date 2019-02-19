@@ -6,14 +6,15 @@ let listUserCalled = 0;
 let UserDataCalled = 0;
 
 exports.listAllUsers = (req, res, next) => {
-	Users.find({}, (err, user) => {
+	Users.find({}, `_id email firstName lastName specialty foto city hobbies rights`, (err, user) => {
 		if (err) {
 			res.send(err);
+		} else {
+			let response = JSON.stringify({ "data": user });
+			listUserCalled++;
+			console.log(`List All Users: ${listUserCalled}`);
+			res.send(response);
 		}
-		let response = JSON.stringify({ "data": user });
-		listUserCalled++;
-		console.log(`List All Users: ${listUserCalled}`);
-		res.send(response);
 	});
 };
 
@@ -29,7 +30,7 @@ exports.createUser = (req, res) => {
 };
 
 exports.readAnUser = (req, res, next) => {
-	Users.findById(req.params.userId, (err, user) => {
+	Users.findById(req.params.userId, `_id email firstName lastName specialty foto city hobbies rights`, (err, user) => {
 		if (err) {
 			res.send(err);
 		} else {

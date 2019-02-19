@@ -12,13 +12,14 @@ const UserSchema = new Schema({
 		required: `Please add an email`
 	},
 	rights: {
-		type: [{
-			type: String,
-			enum: [`User`, `Student`, `Coach`, `Super Admin`]
-		}],
-		default: [`User`]
+		type: String,
+		enum: [`User`, `Student`, `Coach`, `Super Admin`],
+		default: `User`
 	},
-	passwordHash: String,
+	passwordHash: {
+		type: String,
+		required: `Provide a password`
+	},
 	firstName: String,
 	lastName: String,
 	specialty: String,

@@ -13,7 +13,7 @@ const UserSchema = new Schema({
 	},
 	rights: {
 		type: String,
-		enum: [`User`, `Student`, `Coach`, `Super Admin`],
+		enum: [`User`, `Student`, `Coach`, `Super_Admin`],
 		default: `User`
 	},
 	passwordHash: {

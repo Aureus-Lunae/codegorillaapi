@@ -11,30 +11,42 @@ let testCalled = 0;
  */
 
 exports.listAllUsers = (req, res, next) => {
-	let query = ``;
+	const { rank } = req.query
+	let query = {};
 
-	Users.find({}, `_id email firstName lastName specialty foto city hobbies rights`, (err, user) => {
+	if (rank) {
+		query.rights = rank.charAt(0).toUpperCase() + rank.slice(1);
+	}
+
+	listUserCalled++;
+	console.log(`List All Users: ${listUserCalled}`);
+
+	Users.find(query, `_id email firstName lastName specialty foto city hobbies rights`, (err, user) => {
 		if (err) {
 			res.send(err);
 		} else {
 			let response = JSON.stringify({ "data": user });
-			listUserCalled++;
-			console.log(`List All Users: ${listUserCalled}`);
 			res.send(response);
 		}
 	});
 };
 
 exports.testlistAllUsers = (req, res, next) => {
-	let query = ``;
+	const { rank } = req.query
+	let query = {};
 
-	Users.find({}, `_id email firstName lastName specialty foto city hobbies rights`, (err, user) => {
+	if (rank) {
+		query.rights = rank.charAt(0).toUpperCase() + rank.slice(1);
+	}
+
+	console.log(query);
+	testCalled++;
+	console.log(`Test List: ${testCalled}`);
+	Users.find(query, `_id email firstName lastName specialty foto city hobbies rights`, (err, user) => {
 		if (err) {
 			res.send(err);
 		} else {
 			let response = JSON.stringify({ "data": user });
-			listUserCalled++;
-			console.log(`Test List: ${testCalled}`);
 			res.send(response);
 		}
 	});
@@ -47,7 +59,7 @@ exports.createUser = (req, res) => {
 		if (err) {
 			res.send(err);
 		}
-		res.json(user);
+		res.json({ message: 'Account created' });
 	});
 };
 

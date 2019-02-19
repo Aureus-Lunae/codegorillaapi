@@ -2,13 +2,9 @@
   "name": "codegorillaapi",
   "version": "1.0.0",
   "description": "API for CodeGorilla where the people can upload their projects and users can find the projects",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/Aureus-Lunae/codegorillaapi.git"
+    "dev": "nodemon server.js"
   },
   "keywords": [
     "CodeGorilla",
@@ -21,8 +17,11 @@
   },
   "homepage": "https://github.com/Aureus-Lunae/codegorillaapi#readme",
   "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
-    "mongodb": "^3.1.13"
+    "mongodb": "^3.1.13",
+    "mongoose": "^5.4.13"
   },
   "devDependencies": {
     "nodemon": "^1.18.10"

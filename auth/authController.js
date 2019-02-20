@@ -12,7 +12,9 @@ var privateKEY = fs.readFileSync('./auth/private.key', 'utf8');
 var publicKEY = fs.readFileSync('./auth/public.key', 'utf8');
 
 exports.registerUser = (req, res) => {
+	console.log(req.headers);
 	console.log(req.body);
+	console.log(req.body.email);
 	req.body.passwordHash = bcrypt.hashSync(req.body.passwordHash, 12);
 	console.log(req.body.passwordHash);
 	let newUser = new Users(req.body);
@@ -21,7 +23,7 @@ exports.registerUser = (req, res) => {
 		if (err) {
 			res.send(err);
 		} else {
-			res.json({ message: 'Account created' });
+			res.status(200).send({ message: 'Account created' });
 		}
 	});
 };

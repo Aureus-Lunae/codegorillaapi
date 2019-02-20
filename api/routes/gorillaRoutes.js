@@ -4,8 +4,8 @@ module.exports = (app) => {
 	const gorillas = require(`../controllers/gorillaController`);
 	const auth = require(`../../auth/authController`)
 
-	app.route(`/test/users`)
-		.get(gorillas.testlistAllUsers)
+	app.route(`/test`)
+		.get(gorillas.test)
 
 	/**
 	 * Routes
@@ -21,7 +21,7 @@ module.exports = (app) => {
 
 	app.route(`/me`)
 		.get(gorillas.getOwnData);
-		
+
 	// Auth routes
 	app.route(`/register`)
 		.post(auth.registerUser);

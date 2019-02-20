@@ -1,7 +1,10 @@
 'use strict';
-
+const bcrypt = require(`bcryptjs`);
 const mongoose = require(`mongoose`),
 	Users = mongoose.model(`Users`);
+const jwt = require(`jsonwebtoken`);
+const config = require(`../../config`);
+const auth = require(`../../auth/authController`)
 let listUserCalled = 0;
 let UserDataCalled = 0;
 let testCalled = 0;
@@ -39,7 +42,8 @@ exports.listAllUsers = (req, res, next) => {
 			console.log(`Error, does not exist`);
 		} else {
 			options.sort = {
-				[sortby]: 1 };
+				[sortby]: 1
+			};
 		}
 	}
 
@@ -50,7 +54,7 @@ exports.listAllUsers = (req, res, next) => {
 		if (err) {
 			res.send(err);
 		} else {
-			let response = JSON.stringify({ "data": user });
+			let response = JSON.stringify({ "data": user, "greetings": { "greeting": "Hallo Bob", "calls": `You have called this ${listUserCalled} times after server start` } });
 			res.send(response);
 		}
 	});
@@ -105,18 +109,6 @@ exports.testlistAllUsers = (req, res, next) => {
 	});
 };
 
-exports.createUser = (req, res) => {
-	let newUser = new Users(req.body);
-
-	newUser.save((err, user) => {
-		if (err) {
-			res.send(err);
-		} else {
-			res.json({ message: 'Account created' });
-		}
-	});
-};
-
 /**
  * Functions for app.route(`/users/userId`)
  */
@@ -143,3 +135,19 @@ exports.deleteAnUser = (req, res) => {
 		}
 	});
 };
+
+exports.getOwnData = (req, res) => {
+	console.log(req.headers);
+	let token = req.headers[`x-access-token`];
+	console.log(token);
+	if (!token) return res.status(401).send({ auth: false, message: `No token provided` });
+
+	let verifiedToken = auth.verifyToken(token, res);
+
+	Users.findById(verifiedToken.id, `_id email firstName lastName specialty foto city hobbies rights`, (err, user) => {
+		if (err) return res.status(500).send(`There was a problem finding the user.`);
+		if (!user) return res.status(500).send({ auth: false, message: `Failed to authenticate token.`, error: err });
+
+		res.status(200).send({ "data": user });
+	});
+}

@@ -2,7 +2,8 @@
 
 module.exports = (app) => {
 	const gorillas = require(`../controllers/gorillaController`);
-	const auth = require(`../../auth/authController`)
+	const projects = require(`../controllers/projectsController`);
+	const auth = require(`../../auth/authController`);
 
 	app.route(`/test`)
 		.get(gorillas.test)
@@ -31,4 +32,8 @@ module.exports = (app) => {
 
 	app.route(`/logout`)
 		.get(auth.logoutUser);
+
+	// projectData Routes
+	app.route(`/projects/add`)
+		.get(projects.addProject);
 };

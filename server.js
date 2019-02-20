@@ -3,6 +3,7 @@ const express = require(`express`),
 	port = process.env.PORT || 8000,
 	mongoose = require(`mongoose`),
 	Users = require(`./api/models/gorillaModel`),
+	Projects = require(`./api/models/projectsModel`),
 	bodyParser = require(`body-parser`);
 const cors = require(`cors`);
 

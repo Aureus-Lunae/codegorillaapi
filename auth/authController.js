@@ -71,14 +71,16 @@ exports.verifyToken = (token, res) => {
 
 exports.checkRights = (userRights, requiredRights) => {
 	let hasAccess = false;
+	userRights = userRights.toLowerCase();
+	requiredRights = requiredRights.toLowerCase();
 	console.log(`Rights: ${userRights} | Required: ${requiredRights}`);
 	switch (userRights) {
-		case 'Coach':
-			if (requiredRights === `Student`) {
+		case 'coach':
+			if (requiredRights === `student`) {
 				hasAccess = true;
 			}
 			break;
-		case `Super Admin`:
+		case `super admin`:
 			hasAccess = true;
 			break;
 		default:

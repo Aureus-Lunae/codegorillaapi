@@ -1,3 +1,5 @@
+`use strict`;
+
 const mongoose = require(`mongoose`);
 const Schema = mongoose.Schema;
 
@@ -5,13 +7,14 @@ const ProjectSchema = new Schema({
 	name: {
 		type: String,
 		required: `Please add a project name`
-	}
-	userID: [
-		{ type: Schema.Types.ObjectId, ref: `Users` }
-	],
+	},
+	userID: { type: Schema.Types.ObjectId, ref: `Users` },
 	github: String,
 	site: String,
-	views: Number,
+	views: {
+		type: Number,
+		default: 0
+	},
 	programmingLanguages: Array,
 	projectTime: String
 });

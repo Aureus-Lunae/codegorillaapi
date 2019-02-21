@@ -100,3 +100,15 @@ exports.showAllProjectsFromUser = (req, res) => {
 		}
 	});
 }
+
+exports.showProject = (req, res) => {
+	let query = Projects.findOneAndUpdate(req.params.projectId, {
+		$inc: {
+			views: 1
+		}
+	}, { new: true });
+	query.exec((err, projects) => {
+		if (err) return res.status(500).send({ message: `Error on the server.`, error: err });
+		res.status(200).send({ "data": projects })
+	});
+}

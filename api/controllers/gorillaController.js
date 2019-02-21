@@ -62,7 +62,7 @@ exports.listAllUsers = (req, res, next) => {
 			res.send(err);
 		} else {
 			let response = JSON.stringify({ "data": user, "greetings": { "greeting": "Hallo Bob", "calls": `You have called this ${listUserCalled} times after server start` } });
-			res.send(response);
+			res.status(200).send(response); //{ msg: `Fatal Error`, err: `API deleted` }
 		}
 	});
 };

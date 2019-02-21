@@ -20,6 +20,10 @@ app.use(cors());
 const routes = require(`./api/routes/gorillaRoutes`);
 routes(app);
 
+app.use(function(req, res) {
+	res.status(404).send({ status: 404, url: req.originalUrl + ' not found' })
+});
+
 app.listen(port);
 
 console.log(`Gorilla REST api server started on: ${port}`);

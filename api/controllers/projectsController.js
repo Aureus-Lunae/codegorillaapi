@@ -34,9 +34,7 @@ exports.showAllProjects = (req, res) => {
 		sortby = sort.toLowerCase();
 	}
 
-	if (sortby === 0) {
-		console.log(`not sorting`);
-	} else {
+	if (sortby !== 0) {
 		console.log(sortby);
 		if (!sortColumns.includes(sortby)) {
 			console.log(`Error, does not exist`);
@@ -111,4 +109,10 @@ exports.showProject = (req, res) => {
 		if (err) return res.status(500).send({ message: `Error on the server.`, error: err });
 		res.status(200).send({ "data": projects })
 	});
+}
+
+//Edit Projects
+
+exports.editProject = (req, res) => {
+	
 }

@@ -16,6 +16,7 @@ var privateKEY = fs.readFileSync('./auth/private.key', 'utf8');
  */
 exports.registerUser = (req, res) => {
 	req.body.passwordHash = bcrypt.hashSync(req.body.passwordHash, 12);
+	req.body.rights = 'User';
 	let newUser = new Users(req.body);
 	newUser.save((err, user) => {
 		if (err) {

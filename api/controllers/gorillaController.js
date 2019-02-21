@@ -4,14 +4,7 @@ const mongoose = require(`mongoose`),
 const auth = require(`../../auth/authController`);
 
 exports.test = (req, res, next) => {
-	console.log(`Testing Started`);
-	let token = req.headers[`x-access-token`];
-	if (!token) return res.status(401).send({ auth: false, message: `No token provided` });
-	let verifiedToken = auth.verifyToken(token, res);
-
-	let hasAccess = auth.checkRights(verifiedToken.rank, `Student`);
-	console.log(`Has Access: ${hasAccess}`);
-	res.status(200).send({ "Has Access": hasAccess });
+	res.status(200).send({ "Fatal Error": `Gorillas have broken the API. Please Stand by while the gorillas are fixing it`, fix: { eta: `Unknown`, group: 2, "Gorilla Leader": `Thomas`, Gorillas: [`Bob`, `Erwin`] } });
 };
 
 /**
@@ -39,9 +32,7 @@ exports.listAllUsers = (req, res, next) => {
 		}
 	}
 
-	if (sortby === 0) {
-		console.log(`undefined`);
-	} else {
+	if (sortby !== 0) {
 		console.log(sortby);
 		if (!sortColumns.includes(sortby)) {
 			console.log(`Error, does not exist`);
@@ -57,7 +48,7 @@ exports.listAllUsers = (req, res, next) => {
 			res.send(err);
 		} else {
 			let response = JSON.stringify({ "data": user, "greetings": { "greeting": "Hallo", "code": `You won't be getting it` } });
-			res.status(200).send(response); //{ msg: `Fatal Error`, err: `API deleted` }
+			res.status(200).send(response);
 		}
 	});
 };

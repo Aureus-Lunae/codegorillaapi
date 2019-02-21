@@ -60,7 +60,7 @@ exports.showAllProjects = (req, res) => {
 		if (err) {
 			res.send(err);
 		} else {
-			let response = JSON.stringify({ "data": projects, "greetings": { "greeting": "Hallo Bob", "calls": `You have called this 666 times after server start` } });
+			let response = JSON.stringify({ "data": projects });
 			res.send(response);
 		}
 	});

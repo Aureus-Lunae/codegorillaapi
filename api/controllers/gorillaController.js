@@ -2,8 +2,6 @@
 const mongoose = require(`mongoose`),
 	Users = mongoose.model(`Users`);
 const auth = require(`../../auth/authController`);
-let listUserCalled = 665;
-let UserDataCalled = 0;
 
 exports.test = (req, res, next) => {
 	console.log(`Testing Started`);
@@ -54,14 +52,11 @@ exports.listAllUsers = (req, res, next) => {
 		}
 	}
 
-	listUserCalled++;
-	console.log(`List All Users: ${listUserCalled}`);
-
 	Users.find(query, `-passwordHash`, options, (err, user) => {
 		if (err) {
 			res.send(err);
 		} else {
-			let response = JSON.stringify({ "data": user, "greetings": { "greeting": "Hallo Bob", "calls": `You have called this ${listUserCalled} times after server start` } });
+			let response = JSON.stringify({ "data": user, "greetings": { "greeting": "Hallo", "code": `You won't be getting it` } });
 			res.status(200).send(response); //{ msg: `Fatal Error`, err: `API deleted` }
 		}
 	});
@@ -76,14 +71,23 @@ exports.readAnUser = (req, res, next) => {
 			res.send(err);
 		} else {
 			let response = JSON.stringify({ "data": user });
-			UserDataCalled++;
-			console.log(`List User: ${UserDataCalled}`);
 			res.send(response);
 		}
 	});
 };
 
 exports.deleteAnUser = (req, res) => {
+	let token = req.headers[`x-access-token`];
+	if (!token) return res.status(401).send({ auth: false, message: `No token provided` });
+	let verifiedToken = auth.verifyToken(token, res);
+
+	if (!verifiedToken) return res.status(500).send({ auth: false, message: `Failed to authenticate token.` });
+
+	let hasAccess = auth.checkRights(verifiedToken.rank, `Super Admin`);
+	if (!hasAccess) {
+		if (req.params.userId !== verifiedToken.id) return res.status(401).send({ auth: false, message: `Not enough rights to delete an user` });
+	}
+
 	Users.remove({ _id: req.params.userId }, (err, user) => {
 		if (err) {
 			res.send(err);

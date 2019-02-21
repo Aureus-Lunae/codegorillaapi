@@ -15,13 +15,8 @@ var privateKEY = fs.readFileSync('./auth/private.key', 'utf8');
  * @param  {[JSON object]} res [Response data to the client]
  */
 exports.registerUser = (req, res) => {
-	console.log(req.headers);
-	console.log(req.body);
-	console.log(req.body.email);
 	req.body.passwordHash = bcrypt.hashSync(req.body.passwordHash, 12);
-	console.log(req.body.passwordHash);
 	let newUser = new Users(req.body);
-	console.log(newUser);
 	newUser.save((err, user) => {
 		if (err) {
 			res.status(500).send({ created: false, message: `Something went wrong with registering.`, error: err });
@@ -36,7 +31,6 @@ exports.registerUser = (req, res) => {
  */
 
 exports.loginUser = (req, res) => {
-	console.log(`Login test`);
 	Users.findOne({ email: req.body.email }, (err, user) => {
 		if (err) return res.status(500).send(`Error on the server.`);
 		if (!user) return res.status(401).send({ error: `401`, msg: `User or Password incorrect` });
@@ -45,9 +39,8 @@ exports.loginUser = (req, res) => {
 		if (!passwordIsValid) return res.status(401).send({ error: `401`, msg: `User or Password incorrect` });
 
 		let token = jwt.sign({ id: user._id, rank: user.rights }, privateKEY, {
-			expiresIn: "12h"
+			expiresIn: "3h"
 		});
-
 		res.status(200).send({ auth: true, token: token, rank: user.rights, name: { first: user.firstName, last: user.lastName } })
 	});
 }

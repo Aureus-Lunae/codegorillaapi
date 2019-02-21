@@ -57,7 +57,7 @@ exports.listAllUsers = (req, res, next) => {
 	listUserCalled++;
 	console.log(`List All Users: ${listUserCalled}`);
 
-	Users.find(query, `_id email firstName lastName specialty foto city hobbies rights`, options, (err, user) => {
+	Users.find(query, `-passwordHash`, options, (err, user) => {
 		if (err) {
 			res.send(err);
 		} else {
@@ -98,6 +98,8 @@ exports.getOwnData = (req, res) => {
 	let token = req.headers[`x-access-token`];
 	if (!token) return res.status(401).send({ auth: false, message: `No token provided` });
 	let verifiedToken = auth.verifyToken(token, res);
+
+	if (!verifiedToken) return res.status(500).send({ auth: false, message: `Failed to authenticate token.` });
 
 	Users.findById(verifiedToken.id, `_id email firstName lastName specialty foto city hobbies rights`, (err, user) => {
 		if (err) return res.status(500).send(`There was a problem finding the user.`);

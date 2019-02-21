@@ -19,4 +19,8 @@ const ProjectSchema = new Schema({
 	projectTime: String
 });
 
+ProjectSchema.post('find', function() {
+	this.populate(`UserID`);
+});
+
 module.exports = mongoose.model(`Projects`, ProjectSchema);

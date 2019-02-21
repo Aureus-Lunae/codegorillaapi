@@ -33,7 +33,14 @@ module.exports = (app) => {
 	app.route(`/logout`)
 		.get(auth.logoutUser);
 
+	//User Project Route
+	app.route(`/users/:userId/projects`)
+		.get(projects.showAllProjectsFromUser);
+
 	// projectData Routes
+	app.route(`/projects`)
+		.get(projects.showAllProjects);
+
 	app.route(`/projects/add`)
-		.get(projects.addProject);
+		.post(projects.addProject);
 };

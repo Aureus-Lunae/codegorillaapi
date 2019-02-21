@@ -42,7 +42,8 @@ module.exports = (app) => {
 		.get(projects.showAllProjects);
 
 	app.route(`/projects/:projectId`)
-		.get(projects.showProject);
+		.get(projects.showProject)
+		.put(projects.editProject);
 
 	app.route(`/projects/add`)
 		.post(projects.addProject);

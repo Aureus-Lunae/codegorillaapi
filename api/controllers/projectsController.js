@@ -192,5 +192,4 @@ exports.editProject = (req, res) => {
 				}
 			});
 	}
-
 }

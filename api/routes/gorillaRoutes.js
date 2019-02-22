@@ -39,12 +39,11 @@ module.exports = (app) => {
 
 	// projectData Routes
 	app.route(`/projects`)
-		.get(projects.showAllProjects);
+		.get(projects.showAllProjects)
+		.post(projects.addProject);
 
 	app.route(`/projects/:projectId`)
 		.get(projects.showProject)
 		.put(projects.editProject);
 
-	app.route(`/projects/add`)
-		.post(projects.addProject);
 };

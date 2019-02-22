@@ -54,11 +54,15 @@ exports.logoutUser = (req, res) => {
  * Verification functions
  * Only when a token is provided, it will return an auth access to the rest. Else it gives an error. And if you also want to check for rank, it checks the rank with minimum access rank, before continuing.
  */
+
 exports.verifyToken = (token, res) => {
 	let response;
 	jwt.verify(token, privateKEY, (err, decoded) => {
-		if (err) return res.status(500).send({ auth: false, message: `Failed to authenticate token.` });
-		response = decoded;
+		if (err) {
+			response = null;
+		} else {
+			response = decoded;
+		}
 	});
 	return response;
 }

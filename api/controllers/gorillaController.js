@@ -72,7 +72,7 @@ exports.deleteAnUser = (req, res) => {
 	if (!token) return res.status(401).send({ auth: false, message: `No token provided` });
 	let verifiedToken = auth.verifyToken(token, res);
 
-	if (!verifiedToken) return res.status(500).send({ auth: false, message: `Failed to authenticate token.` });
+	if (!verifiedToken) return res.status(401).send({ auth: false, message: `Failed to authenticate token.` });
 
 	let hasAccess = auth.checkRights(verifiedToken.rank, `Super Admin`);
 	if (!hasAccess) {

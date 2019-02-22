@@ -47,7 +47,7 @@ exports.listAllUsers = (req, res, next) => {
 		if (err) {
 			res.send(err);
 		} else {
-			let response = JSON.stringify({ "data": user, "greetings": { "greeting": "Hallo", "code": `You won't be getting it` } });
+			let response = JSON.stringify({ data: user });
 			res.status(200).send(response);
 		}
 	});
@@ -57,11 +57,11 @@ exports.listAllUsers = (req, res, next) => {
  * Functions for app.route(`/users/userId`)
  */
 exports.readAnUser = (req, res, next) => {
-	Users.findById(req.params.userId, `_id email firstName lastName specialty foto city hobbies rights`, (err, user) => {
+	Users.findById(req.params.userId, `-passwordHash`, (err, user) => {
 		if (err) {
 			res.send(err);
 		} else {
-			let response = JSON.stringify({ "data": user });
+			let response = JSON.stringify({ data: user });
 			res.send(response);
 		}
 	});
@@ -84,7 +84,7 @@ exports.deleteAnUser = (req, res) => {
 			res.send(err);
 		} else {
 			console.log(`Delete User`);
-			res.json({ message: 'user succesfully deleted' });
+			res.json({ message: `user succesfully deleted` });
 		}
 	});
 };
@@ -100,6 +100,6 @@ exports.getOwnData = (req, res) => {
 		if (err) return res.status(500).send(`There was a problem finding the user.`);
 		if (!user) return res.status(500).send({ auth: false, message: `Failed to authenticate token.`, error: err });
 
-		res.status(200).send({ "data": user });
+		res.status(200).send({ data: user });
 	});
 }

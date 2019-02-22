@@ -111,6 +111,36 @@ exports.showProject = (req, res) => {
 	});
 }
 
+//Delete Projects
+exports.deleteProject = (req, res) => {
+	let token = req.headers[`x-access-token`];
+	if (!token) return res.status(401).send({ auth: false, message: `No token provided` });
+	let verifiedToken = auth.verifyToken(token, res);
+
+	if (!verifiedToken) {
+		return res.status(401).send({ auth: false, message: `Failed to authenticate token.` });
+	} else {
+
+		let hasAccess = auth.checkRights(verifiedToken.rank, `Coach`);
+
+		CheckIfProjectOwner(hasAccess, req.params.projectId, verifiedToken.id)
+			.then((resolve) => {
+				Projects.remove({ _id: req.params.projectId }, (err, Project) => {
+					if (err) return res.status(500).send({ message: `Error on the server.`, error: err });
+					res.status(200).send({ message: `Project successfully deleted` });
+				});
+			})
+			.catch((error) => {
+				if (error) {
+					res.status(500).send({ Status: 500, error: error });
+				} else {
+					res.status(401).send({ Status: 401, error: `Unauthorized Access` });
+				}
+			});
+
+	}
+}
+
 //Edit Projects
 
 const CheckIfProjectOwner = (hasAccess, projectId, userId) => {

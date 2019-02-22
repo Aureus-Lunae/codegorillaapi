@@ -44,6 +44,7 @@ module.exports = (app) => {
 
 	app.route(`/projects/:projectId`)
 		.get(projects.showProject)
-		.put(projects.editProject);
+		.put(projects.editProject)
+		.delete(projects.deleteProject);
 
 };
